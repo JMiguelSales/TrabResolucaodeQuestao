@@ -72,12 +72,15 @@ namespace Trabalho_2C
 
             DiretorioTemp = CaminhoDiretorioQ+txt+@"\";
             PastasNUsadas.AddRange(Directory.GetDirectories(DiretorioTemp));
-            CriarBateriaQuestao(PastasNUsadas);
 
-           
-            this.Hide();
-            FormPrincipal Principal = new FormPrincipal(Questão.list.Count, nudTimer.Value);
-            this.Close();
+
+            if (CriarBateriaQuestao(PastasNUsadas))
+            {
+                this.Hide();
+                FormPrincipal Principal = new FormPrincipal(Questão.list.Count, nudTimer.Value);
+                this.Close();
+            }
+
 
         }
         private void MistaQuestao()
@@ -92,15 +95,18 @@ namespace Trabalho_2C
                 MateriasPastas.AddRange(Directory.GetDirectories(temp));
             }
 
-            CriarBateriaQuestao(MateriasPastas);
-            this.Hide();
-            FormPrincipal Principal = new FormPrincipal(Questão.list.Count, nudTimer.Value);
-            this.Close();
+            if (CriarBateriaQuestao(MateriasPastas))
+            {
+                this.Hide();
+                FormPrincipal Principal = new FormPrincipal(Questão.list.Count, nudTimer.Value);
+                this.Close();
+            }
+
         }
         private bool CriarBateriaQuestao(List<string> PastasNUsadas)
         {
             List<string> Questoes = new List<string>();
-            int QntQuestoes, index;
+            int QntQuestoes, index, SaveOldCount;
 
             foreach (string path in PastasNUsadas)
             {
@@ -110,6 +116,7 @@ namespace Trabalho_2C
             }
            
             QntQuestoes = Convert.ToInt32(nudQt.Value);
+            SaveOldCount = Questoes.Count;
 
             for (int j = 0; j < QntQuestoes; j++)
             {
@@ -127,7 +134,7 @@ namespace Trabalho_2C
                 }
 
                 Questoes.RemoveAt(index);
-                if (Questoes.Count == 0)
+                if (Questoes.Count == 0 && QntQuestoes != SaveOldCount)
                 {
                     MessageBox.Show("Não há questões o suficiente, essa bateria conterá: " + (j + 1).ToString() + " questões");
                     return true;
@@ -142,11 +149,11 @@ namespace Trabalho_2C
             // necessidade de ser bool, pois, caso seja possível criar uma bateria, permitira o inicio  das questões
             List<FileInfo> Questoes = new List<FileInfo>();
             DirectoryInfo info = new DirectoryInfo(PastaUsada);
-            int QntQuestoes,index;
+            int QntQuestoes,index,SaveOldCount;
 
             QntQuestoes = Convert.ToInt32(nudQt.Value);
             Questoes = info.GetFiles().ToList();
-
+            SaveOldCount = Questoes.Count;
 
             for (int j=0;j< QntQuestoes; j++)
             {
@@ -162,9 +169,9 @@ namespace Trabalho_2C
                     MessageBox.Show("Pasta sem questões, selecione outra");
                     return false;
                 }
-                
+
                 Questoes.RemoveAt(index);
-                if (Questoes.Count == 0)
+                if (Questoes.Count == 0 && QntQuestoes!= SaveOldCount)
                 {
                     MessageBox.Show("Não há questões o suficiente, essa bateria conterá: "+(j+1).ToString()+" questões");
                     return true;

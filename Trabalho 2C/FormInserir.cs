@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Trabalho_2C
 {
@@ -58,12 +59,12 @@ namespace Trabalho_2C
             {
                 string Path = diretorioAtual + Pasta+ FindNewestFile();
                 StreamWriter Writer = new StreamWriter(Path);
-                Writer.WriteLine(txtEnun.Text);
-                Writer.WriteLine(txtA.Text);
-                Writer.WriteLine(txtB.Text);
-                Writer.WriteLine(txtC.Text);
-                Writer.WriteLine(txtD.Text);
-                Writer.WriteLine(txtE.Text);
+                Writer.WriteLine(TratarTxt(txtEnun.Text));
+                Writer.WriteLine(TratarTxt(txtA.Text));
+                Writer.WriteLine(TratarTxt(txtB.Text));
+                Writer.WriteLine(TratarTxt(txtC.Text));
+                Writer.WriteLine(TratarTxt(txtD.Text));
+                Writer.WriteLine(TratarTxt(txtE.Text));
                 Writer.WriteLine(CorrectAlt);
                 Writer.WriteLine(txtReso.Text);
                 Writer.WriteLine(0);//acertos
@@ -185,6 +186,11 @@ namespace Trabalho_2C
             MessageBox.Show("Novo diretório serve para criar pastas de matérias como: Artes, Música etc \n" +
                 "Nova Questão é o local onde criará questões novas\n" +
                 "Pastas existentes são mostradas no icone ao lado da frase pasta");
+        }
+        string TratarTxt(string txt)
+        {
+            string replacement = Regex.Replace(txt, @"\t|\n|\r", "");
+            return replacement;
         }
     }
 }

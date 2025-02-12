@@ -14,7 +14,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace Trabalho_2C
 {
     public partial class Dados : Form
-    {
+    { 
         string diretorioAtual;
         readonly int PostionX = 32, PositionY = 167;
         readonly int ConstanteX = 260, ConstanteY = 28;
